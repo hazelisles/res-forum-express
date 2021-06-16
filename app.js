@@ -6,6 +6,7 @@ const db = require('./models')
 
 app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
+app.use(express.urlencoded({ extended: true }))
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
