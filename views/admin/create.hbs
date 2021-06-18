@@ -1,5 +1,10 @@
+{{#if restaurant}}
+<h1>修改餐廳資訊</h1>
+<form action="/admin/restaurants/{{restaurant.id}}?_method=PUT" method="POST"></form>
+{{else}}
 <h1>新增餐廳</h1>
 <form action="/admin/restaurants" method="POST">
+{{/if}}
   <div class="form-group">
     <label for="name">Name</label>
     <input
@@ -8,6 +13,7 @@
       name="name"
       id="name"
       placeholder="Enter name"
+      value="{{restaurant.name}}"
     />
   </div>
 
@@ -19,6 +25,7 @@
       name="tel"
       id="tel"
       placeholder="Enter tel"
+      value="{{restaurant.tel}}"
     />
   </div>
 
@@ -30,6 +37,7 @@
       name="address"
       id="address"
       placeholder="Enter address"
+      value="{{restaurant.address}}"
     />
   </div>
 
@@ -41,6 +49,7 @@
       name="opening_hours"
       id="opening_hours"
       placeholder="Enter opening_hours"
+      value="{{restaurant.opening_hours}}"
     />
   </div>
 
@@ -51,8 +60,11 @@
       id="description"
       name="description"
       rows="3"
-    ></textarea>
+    >{{restaurant.description}}</textarea>
   </div>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
+{{#if restaurant}}
+  <button type="submit" class="btn btn-success">Save</button>
+{{else}}
+  <button type="submit" class="btn btn-primary">Create</button>
+{{/if}}
 </form>
