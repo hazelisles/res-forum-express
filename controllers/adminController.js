@@ -28,6 +28,21 @@ const adminController = {
   },
   editRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => res.render('admin/create', { restaurant }))
+  },
+  putRestaurant: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', '餐廳名稱不可以空白')
+      return res.redirect('back')
+    }
+    const { name, tel, address, opening_hours, description } = req.body
+    return Restaurant.findByPk(req.params.id).then((restaurant) => {
+      restaurant.update({
+        name, tel, address, opening_hours, description
+      })
+    }).then((restaurant) => {
+      req.flash('success_messages', '成功修改餐廳！')
+      res.redirect('/admin/restaurants')
+    })
   }
 }
 module.exports = adminController
