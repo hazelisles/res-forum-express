@@ -1,6 +1,7 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
-const fs = require('fs')
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminController = {
   getRestaurants: (req, res) => {
@@ -19,15 +20,13 @@ const adminController = {
     const { file } = req
     const { name, tel, address, opening_hours, description } = req.body
     if (file) {
-      fs.readFile(file.path, (err, data) => {
-        if (err) console.log('Error', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return Restaurant.create({
-            name, tel, address, opening_hours, description, image: file ? `/upload/${file.originalname}` : null
-          }).then((restaurant) => {
-            req.flash('success_messages', '成功新增餐廳！')
-            res.redirect('/admin/restaurants')
-          })
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.create({
+          name, tel, address, opening_hours, description, image: file ? img.data.link : null
+        }).then((restaurant) => {
+          req.flash('success_messages', '成功新增餐廳！')
+          res.redirect('/admin/restaurants')
         })
       })
     } else {
@@ -53,16 +52,14 @@ const adminController = {
     const { file } = req
     const { name, tel, address, opening_hours, description } = req.body
     if (file) {
-      fs.readFile(file.path, (err, data) => {
-        if (err) console.log('Error: ', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return Restaurant.findByPk(req.params.id).then((restaurant) => {
-            restaurant.update({
-              name, tel, address, opening_hours, description, image: file ? `/upload/${file.originalname}` : restaurant.image
-            }).then((restaurant) => {
-              req.flash('success_messages', '成功修改餐廳！')
-              res.redirect('/admin/restaurants')
-            })
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.findByPk(req.params.id).then((restaurant) => {
+          restaurant.update({
+            name, tel, address, opening_hours, description, image: file ? img.data.link : restaurant.image
+          }).then((restaurant) => {
+            req.flash('success_messages', '成功修改餐廳！')
+            res.redirect('/admin/restaurants')
           })
         })
       })

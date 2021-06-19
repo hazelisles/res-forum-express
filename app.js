@@ -4,8 +4,11 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const passport = require('./config/passport')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const db = require('./models')
 
 app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }))
@@ -13,7 +16,7 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use('/upload', express.static(__dirname + '/upload'))
 app.use(session({
-  secret: 'SECRET',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
