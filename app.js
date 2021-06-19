@@ -11,6 +11,7 @@ const db = require('./models')
 app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
+app.use('/upload', express.static(__dirname + '/upload'))
 app.use(session({
   secret: 'SECRET',
   resave: false,

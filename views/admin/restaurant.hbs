@@ -1,10 +1,15 @@
 <h1>餐廳詳細資料</h1>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12 mb-3">
     <h1>{{restaurant.name}}</h1>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-5">
+    <img
+      class="img-responsive center-block"
+      src="{{restaurant.image}}"
+      style="width: 300px;margin-bottom: 25px;"
+    />
     <br />
     <div class="well">
       <ul class="list-unstyled">
@@ -14,7 +19,7 @@
       </ul>
     </div>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-7">
     <pre>{{restaurant.description}}</pre>
   </div>
   <hr />
