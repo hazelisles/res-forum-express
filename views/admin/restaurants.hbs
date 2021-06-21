@@ -1,43 +1,82 @@
 <h1>餐廳後台</h1>
-<a href="/admin/restaurants/create">
-  <button type="button" class="btn btn-primary">New Restaurant</button>
-</a>
-<br />
-<br />
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">#</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each restaurants}}
+<div class="mb-3">
+  <a href="/admin/restaurants">Restaurants</a>
+  |
+  <a href="/admin/users">Users</a>
+</div>
+{{#if restaurants}}
+  <a href="/admin/restaurants/create">
+    <button type="button" class="btn btn-primary">New Restaurant</button>
+  </a>
+  <br />
+  <br />
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
-        <th scope="row">{{this.id}}</th>
-        <td>{{this.name}}</td>
-        <td>
-          <button type="button" class="btn btn-link">
-            <a href="/admin/restaurants/{{this.id}}">
-              Show
-            </a>
-          </button>
-          <button type="button" class="btn btn-link">
-            <a href="/admin/restaurants/{{this.id}}/edit">
-              Edit
-            </a>
-          </button>
-          <form
-            action="/admin/restaurants/{{this.id}}?_method=DELETE"
-            method="POST"
-            style="display: inline;"
-            onsubmit="return deleteConfirm();"
-          >
-            <button type="submit" class="btn btn-link">Delete</button>
-          </form>
-        </td>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">#</th>
       </tr>
-    {{/each}}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {{#each restaurants}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.name}}</td>
+          <td>
+            <button type="button" class="btn btn-link">
+              <a href="/admin/restaurants/{{this.id}}">
+                Show
+              </a>
+            </button>
+            <button type="button" class="btn btn-link">
+              <a href="/admin/restaurants/{{this.id}}/edit">
+                Edit
+              </a>
+            </button>
+            <form
+              action="/admin/restaurants/{{this.id}}?_method=DELETE"
+              method="POST"
+              style="display: inline;"
+              onsubmit="return deleteConfirm();"
+            >
+              <button type="submit" class="btn btn-link">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.email}}</td>
+          <td>{{#if this.isAdmin}}Admin{{else}}User{{/if}}</td>
+          <td>
+            <form
+              action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT"
+              method="POST"
+              style="display: inline;"
+            >
+              <button type="submit" class="btn btn-link">Set as
+                {{#if this.isAdmin}}User{{else}}Admin{{/if}}</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{/if}}
