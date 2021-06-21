@@ -11,6 +11,7 @@ module.exports = (app, passport) => {
     if (hp.ensureAuthenticated(req)) {
       return next()
     }
+    req.flash('warning_messages', '請先登入才能使用！')
     res.redirect('/signin')
   }
   const authenticatedAdmin = (req, res, next) => {
@@ -18,6 +19,7 @@ module.exports = (app, passport) => {
       if (hp.getUser(req).isAdmin) { return next() }
       return res.redirect('/')
     }
+    req.flash('warning_messages', '請先登入才能使用！')
     res.redirect('/signin')
   }
   app.get('/', authenticated, (req, res) => {
