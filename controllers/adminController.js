@@ -88,7 +88,16 @@ const adminController = {
     })
   },
   toggleAdmin: (req, res) => {
-    console.log('toggle')
+    User.findByPk(req.params.id).then((user) => {
+      if (user.isAdmin) {
+        user.update({ isAdmin: false })
+      } else {
+        user.update({ isAdmin: true })
+      }
+    }).then(() => {
+      req.flash('success_messages', '成功更新使用者權限')
+      res.redirect('/admin/users')
+    })
   }
 }
 module.exports = adminController
