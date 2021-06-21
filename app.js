@@ -17,7 +17,7 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use('/upload', express.static(__dirname + '/upload'))
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'ssseeecccrrreett',
   resave: false,
   saveUninitialized: false
 }))
