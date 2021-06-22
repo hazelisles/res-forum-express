@@ -1,12 +1,13 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
+const Category = db.Category
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ raw: true }).then(restaurants => {
+    return Restaurant.findAll({ raw: true, nest: true, include: [Category] }).then(restaurants => {
       return res.render('admin/restaurants', { restaurants })
     })
   },
@@ -40,7 +41,7 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => res.render('admin/restaurant', { restaurant }))
+    return Restaurant.findByPk(req.params.id, { raw: true, nest: true, include: [Category] }).then(restaurant => res.render('admin/restaurant', { restaurant }))
   },
   editRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => res.render('admin/create', { restaurant }))
