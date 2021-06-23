@@ -12,7 +12,7 @@ const app = express()
 const port = process.env.PORT || 3000
 const db = require('./models')
 
-app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }))
+app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main', helpers: require('./config/hbs-helpers') }))
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use('/upload', express.static(__dirname + '/upload'))
