@@ -19,7 +19,10 @@ const categoryController = {
       req.flash('error_messages', '請輸入分類！')
       return res.redirect('back')
     } else {
-      return Category.create({ name: req.body.name }).then((category) => res.redirect('/admin/categories'))
+      return Category.create({ name: req.body.name }).then((category) => {
+        req.flash('success_messages', '成功新增分類！')
+        res.redirect('/admin/categories')
+      })
     }
   },
   putCategory: (req, res) => {
@@ -32,6 +35,14 @@ const categoryController = {
         category.update(req.body).then(() => res.redirect('/admin/categories'))
       })
     }
+  },
+  deleteCategory: (req, res) => {
+    return Category.findByPk(req.params.id).then((category) => {
+      category.destroy().then(() => {
+        req.flash('success_messages', '成功刪除分類！')
+        res.redirect('/admin/categories')
+      })
+    })
   }
 }
 module.exports = categoryController
