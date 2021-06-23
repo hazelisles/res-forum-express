@@ -11,23 +11,41 @@
 <div
   class="d-flex align-items-center pl-4 pt-4 mt-3 bg-transparent rounded shadow"
 >
-  <form action="/admin/categories" method="POST">
-    <div class="form-group row">
-      <label class="col-8" for="name">Add New Category</label>
-      <input
-        type="text"
-        placeholder="name"
-        name="name"
-        id="name"
-        class="form-control col-8 mx-2"
-      />
-      <button
-        class="col-2 btn btn-outline-primary"
-        type="submit"
-      >Create</button>
-    </div>
-
-  </form>
+  {{#if category}}
+    <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+      <div class="form-group row">
+        <label class="col-8" for="name">修改分類名稱
+          <strong>#{{category.id}}</strong></label>
+        <input
+          type="text"
+          placeholder="name"
+          name="name"
+          id="name"
+          value="{{category.name}}"
+          class="form-control col-8 mx-2"
+        />
+        <button class="btn btn-success col-2" type="submit">Update</button>
+      </div>
+      <a href="/admin/categories"> or Create New</a>
+    </form>
+  {{else}}
+    <form action="/admin/categories" method="POST">
+      <div class="form-group row">
+        <label class="col-8" for="name">Add New Category</label>
+        <input
+          type="text"
+          placeholder="name"
+          name="name"
+          id="name"
+          class="form-control col-8 mx-2"
+        />
+        <button
+          class="col-2 btn btn-outline-primary"
+          type="submit"
+        >Create</button>
+      </div>
+    </form>
+  {{/if}}
 </div>
 <br />
 <br />
@@ -55,7 +73,11 @@
             method="POST"
             style="display: inline;"
           >
-            <button type="submit" class="btn btn-link">Delete</button>
+            <button
+              type="submit"
+              class="btn btn-link"
+              onsubmit="return deleteConfirm()"
+            >Delete</button>
           </form>
         </td>
       </tr>
