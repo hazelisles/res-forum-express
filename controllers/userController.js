@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
   signUpPage: (req, res) => {
@@ -52,6 +54,37 @@ const userController = {
       const theuser = u.toJSON()
       return res.render('editprofile', { theuser })
     })
+  },
+  putUser: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "名稱不能空白！")
+      return res.redirect('back')
+    }
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id).then((user) => {
+          user.update({
+            name: req.body.name,
+            image: file ? img.data.link : user.image
+          }).then(() => {
+            req.flash('success_messages', '成功更新個人資料！')
+            res.redirect(`/users/${req.params.id}`)
+          })
+        })
+      })
+    } else {
+      return User.findByPk(req.params.id).then((user) => {
+        user.update({
+          name: req.body.name,
+          image: user.image
+        }).then(() => {
+          req.flash('success_messages', '成功更新個人資料！')
+          res.redirect(`/users/${req.params.id}`)
+        })
+      })
+    }
   }
 }
 

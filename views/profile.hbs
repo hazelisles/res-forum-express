@@ -1,15 +1,17 @@
 <div class="row bg-white rounded p-2">
   <div class="col-4">
     <img
-      class="img-responsive center-block rounded-circle"
+      class="img-fluid mx-auto my-2 rounded-circle"
+      style="width: 100%;"
       src="{{theuser.image}}"
-      style="width: 200px;"
       alt="未上傳個人照片"
     />
   </div>
   <div class="col-8">
     <h3>{{theuser.name}}</h3>
     <p>{{theuser.email}}</p>
-    <a class="btn btn-primary" href="/users/{{user.id}}/edit">Edit</a>
+    {{#eq user.id theuser.id}}
+      <a class="btn btn-primary" href="/users/{{user.id}}/edit">Edit</a>
+    {{/eq}}
   </div>
 </div>
