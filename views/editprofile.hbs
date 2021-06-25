@@ -1,0 +1,42 @@
+<div class="row bg-white rounded p-2">
+  <h2 class="col-12 my-2">修改個人檔案</h2>
+  {{#eq user.id theuser.id}}
+    <form
+      class="pl-3"
+      action="/users/{{theuser.id}}?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          readonly
+          class="form-control-plaintext"
+          id="email"
+          value="{{theuser.email}}"
+          disabled
+        />
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          value="{{theuser.name}}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control-file" id="image" />
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  {{else}}
+    <div class="alert alert-danger ml-3" role="alert" style="margin: 30px 0 ;">
+      Error: 沒有權限！
+    </div>
+  {{/eq}}
+</div>
