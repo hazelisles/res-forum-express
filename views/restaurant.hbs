@@ -38,6 +38,11 @@
 {{/unless}}
 {{#each restaurant.Comments}}
   <blockquote class="blockquote mb-0 p-3 rounded shadow-sm bg-white">
+    {{#if ../user.isAdmin}}
+    <form action="/comments/{{this.id}}?_method=DELETE" method="POST" style="float: right;" onsubmit="return deleteConfirm();">
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {{/if}}
     <h4><a href="/users/{{this.User.id}}">{{this.User.name}}</a></h4>
     <p>{{this.text}}</p>
     <footer class="blockquote-footer">{{howlong this.createdAt}}</footer>
