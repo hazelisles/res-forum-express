@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
+const sequelize = require('sequelize')
 const db = require('../models')
 const User = db.User
+const Comment = db.Comment
+const Restaurant = db.Restaurant
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -44,9 +47,19 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res) => {
-    return User.findByPk(req.params.id).then(u => {
+    return User.findByPk(req.params.id, {
+      include: [
+        {
+          model: Comment, include: [
+            { model: Restaurant, attributes: ['name', 'image'] }
+          ]
+        }
+      ],
+      group: ['RestaurantId']
+    }).then(u => {
       const theuser = u.toJSON()
-      return res.render('profile', { theuser })
+      const count = theuser.Comments.length
+      return res.render('profile', { theuser, count })
     })
   },
   editUser: (req, res) => {

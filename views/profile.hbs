@@ -7,11 +7,28 @@
       alt="未上傳個人照片"
     />
   </div>
-  <div class="col-8">
+  <div class="col-8 pl-5">
     <h3>{{theuser.name}}</h3>
     <p>{{theuser.email}}</p>
+    <p><strong>{{count}} 已評論餐廳</strong></p>
     {{#eq user.id theuser.id}}
       <a class="btn btn-primary" href="/users/{{user.id}}/edit">Edit</a>
     {{/eq}}
+  </div>
+</div>
+<div class="row">
+  <div class="card my-3" style="width: 100%;">
+    <div class="card-header"><strong>{{count}} 已評論餐廳</strong></div>
+    <div class="card-body">
+      {{#each theuser.Comments}}
+      <a href="/restaurants/{{this.RestaurantId}}">
+        <img
+          class="img-fluid mx-auto p-2 shadow-sm"
+          style="width: 100px;"
+          src="{{this.Restaurant.image}}"
+          title="{{this.Restaurant.name}}"
+        />
+      </a>
+      {{/each}}
   </div>
 </div>
