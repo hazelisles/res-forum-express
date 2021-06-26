@@ -38,6 +38,9 @@ const restController = {
       include: [
         Category,
         { model: Comment, include: [User] }
+      ],
+      order: [
+        [Comment, 'updatedAt', 'DESC']
       ]
     }).then(restaurant => {
       return res.render('restaurant', { restaurant: restaurant.toJSON() })
