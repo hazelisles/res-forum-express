@@ -2,9 +2,9 @@
   <div class="col-md-12 mb-3">
     <h1>{{restaurant.name}} 
     {{#if isFavorited }}
-      <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit" class="btn btn-danger">移除最愛</button></form>
+      <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger"><i class="fas fa-heart"></i></button></form>
     {{else}}
-      <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit" class="btn btn-primary">加到最愛</button></form>
+      <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger"><i class="far fa-heart"></i></button></form>
     {{/if}}
     </h1>
     <p># <strong>{{restaurant.Category.name}}</strong></p>
