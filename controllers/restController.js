@@ -67,6 +67,18 @@ const restController = {
         restaurants, comments
       })
     })
+  },
+  getDash: (req, res) => {
+    return Promise.all([
+      Restaurant.findByPk(req.params.id, {
+        include: [Category]
+      }),
+      Comment.findAndCountAll({ where: { RestaurantId: req.params.id } })
+    ]).then(([r, c]) => {
+      const count = c.count
+      const restaurant = r.toJSON()
+      res.render('dashboard', { restaurant, count })
+    })
   }
 }
 module.exports = restController
