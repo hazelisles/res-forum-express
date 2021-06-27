@@ -1,9 +1,7 @@
 const bcrypt = require('bcryptjs')
 const sequelize = require('sequelize')
 const db = require('../models')
-const User = db.User
-const Comment = db.Comment
-const Restaurant = db.Restaurant
+const { User, Comment, Restaurant, Favorite } = db
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -98,6 +96,28 @@ const userController = {
         })
       })
     }
+  },
+  addFavorite: (req, res) => {
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then((restaurant) => {
+      req.flash('success_messages', '成功新增餐廳至最愛')
+      return res.redirect('back')
+    })
+  },
+  removeFavorite: (req, res) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then((favorite) => {
+      favorite.destroy().then((restaurant) => {
+        req.flash('success_messages', '成功移除最愛餐廳')
+        return res.redirect('back')
+      })
+    })
   }
 }
 
