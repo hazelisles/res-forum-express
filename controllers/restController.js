@@ -42,7 +42,9 @@ const restController = {
       order: [
         [Comment, 'updatedAt', 'DESC']
       ]
-    }).then(restaurant => {
+    }).then(async (restaurant) => {
+      restaurant.viewCounts += 1
+      await restaurant.save({ fields: ['viewCounts'] })
       return res.render('restaurant', { restaurant: restaurant.toJSON() })
     })
   },
