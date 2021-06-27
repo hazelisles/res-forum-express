@@ -1,11 +1,21 @@
 <div class="row">
   <div class="col-md-12 mb-3">
-    <h1>{{restaurant.name}} 
-    {{#if isFavorited }}
-      <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger"><i class="fas fa-heart"></i></button></form>
-    {{else}}
-      <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger"><i class="far fa-heart"></i></button></form>
-    {{/if}}
+    <h1 class="row">
+      <div class="mr-4">
+        {{restaurant.name}} 
+      </div>
+      <div>
+        {{#if isFavorited }}
+          <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger mb-2"><i class="fas fa-heart"></i></button></form>
+        {{else}}
+          <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit" class="btn btn-outline-danger mb-2"><i class="far fa-heart"></i></button></form>
+        {{/if}}
+        {{#if isLiked }}
+          <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST"><button type="submit" class="btn btn-outline-primary"><i class="fas fa-thumbs-up"></i></button></form>
+        {{else}}  
+          <form action="/like/{{restaurant.id}}" method="POST"><button type="submit" class="btn btn-outline-primary"><i class="far fa-thumbs-up"></i></button></form>
+        {{/if}}
+      </div>  
     </h1>
     <p># <strong>{{restaurant.Category.name}}</strong></p>
   </div>
