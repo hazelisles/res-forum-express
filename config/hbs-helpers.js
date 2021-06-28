@@ -8,5 +8,11 @@ module.exports = {
   },
   howlong: function (a) {
     return moment(a).fromNow()
+  },
+  neq: function (a, b, options) {
+    if (a === b) {
+      return options.inverse(this)
+    }
+    return options.fn(this)
   }
 }

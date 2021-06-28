@@ -27,6 +27,7 @@
         class="badge badge-secondary"
       >追蹤人數：{{this.FollowerCount}}</span>
       <p>
+        {{#neq this.id ../theuser}}
         {{#if this.isFollowed}}
           <form
             action="/following/{{this.id}}?_method=DELETE"
@@ -40,6 +41,7 @@
             style="display: contents;"
           ><button type="submit" class="btn btn-primary">追蹤</button></form>
         {{/if}}
+        {{/neq}}
       </p>
     </div>
   {{/each}}
