@@ -70,6 +70,10 @@ const restController = {
         include: [User, Restaurant]
       })
     ]).then(([restaurants, comments]) => {
+      restaurants = restaurants.map(r => ({
+        ...r,
+        description: r.description.substring(0, 300)
+      }))
       return res.render('feeds', {
         restaurants, comments
       })
@@ -105,6 +109,7 @@ const restController = {
     }).then(restaurant => {
       restaurant = restaurant.map(r => ({
         ...r,
+        description: r.description.substring(0, 160),
         isFavorited: req.user.FavoritedRestaurants.some(d => d.id === r.id)
       }))
       return res.render('top10', { restaurant })
