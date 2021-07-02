@@ -1,4 +1,6 @@
+const { sequelize } = require('../models')
 const db = require('../models')
+const restaurant = require('../models/restaurant')
 const { Restaurant, Category, Comment, User } = db
 const pageLimit = 10
 
@@ -83,6 +85,29 @@ const restController = {
       const count = c.count
       const restaurant = r.toJSON()
       res.render('dashboard', { restaurant, count })
+    })
+  },
+  getTop10: (req, res) => {
+    return Restaurant.findAll({
+      attributes: [
+        'id', 'name', 'image', 'description', 'viewCounts',
+        [sequelize.fn('count', sequelize.col('FavoritedUsers.id')), 'favoriteCount']
+      ],
+      group: 'id',
+      include: [
+        { model: User, as: 'FavoritedUsers', attributes: [] }
+      ],
+      limit: 10,
+      order: [[sequelize.literal('favoriteCount'), 'desc'], ['viewCounts', 'desc']],
+      subQuery: false,
+      raw: true,
+      nest: true
+    }).then(restaurant => {
+      restaurant = restaurant.map(r => ({
+        ...r,
+        isFavorited: req.user.FavoritedRestaurants.some(d => d.id === r.id)
+      }))
+      return res.render('top10', { restaurant })
     })
   }
 }

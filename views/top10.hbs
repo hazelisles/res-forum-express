@@ -1,0 +1,57 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants">首頁</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants/feeds">最新動態</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/users/top">美食達人</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/restaurants/top">TOP10 人氣餐廳</a>
+  </li>
+</ul>
+<br /><br />
+<h1>人氣餐廳</h1>
+<hr />
+<div class="row align-items-center">
+  {{#each restaurant}}
+    <div class="col-12 col-md-6 my-2">
+      <div class="card flex-row align-items-center">
+        <img
+          src="{{this.image}}"
+          class="img-fluid rounded m-2"
+          width="35%"
+          alt=""
+        />
+        <div class="card-body">
+          <div class="row pl-3">
+            <h4 class="card-title mr-2">{{this.name}}</h4>
+            {{#if this.isFavorited}}
+              <form
+                action="/favorite/{{this.id}}?_method=DELETE"
+                method="POST"
+              ><button type="submit" class="btn btn-outline-danger">
+                  <i class="fas fa-heart"></i>
+                </button></form>
+            {{else}}
+              <form action="/favorite/{{this.id}}" method="POST">
+                <button type="submit" class="btn btn-outline-danger">
+                  <i class="far fa-heart"></i>
+                </button></form>
+            {{/if}}
+          </div>
+          <span class="badge badge-secondary">收藏數：
+            {{this.favoriteCount}}</span>
+          <p>{{this.description}}</p>
+          <div class="row m-0 align-items-start">
+            <a href="/restaurants/{{this.id}}" class="mr-2 btn btn-primary">
+              Show
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
