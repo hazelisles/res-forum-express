@@ -102,13 +102,7 @@ const adminController = {
     })
   },
   toggleAdmin: (req, res) => {
-    return User.findByPk(req.params.id).then(async (user) => {
-      if (user.isAdmin) {
-        await user.update({ isAdmin: false })
-      } else {
-        await user.update({ isAdmin: true })
-      }
-    }).then(() => {
+    return User.findByPk(req.params.id).then(user => user.update({ isAdmin: !user.isAdmin })).then(() => {
       req.flash('success_messages', '成功更新使用者權限')
       res.redirect('/admin/users')
     })
