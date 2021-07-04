@@ -41,8 +41,8 @@ const adminService = {
       })
     }
   },
-  getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { raw: true, nest: true, include: [Category] }).then(restaurant => res.render('admin/restaurant', { restaurant }))
+  getRestaurant: (req, res, callback) => {
+    return Restaurant.findByPk(req.params.id, { raw: true, nest: true, include: [Category] }).then(restaurant => callback({ restaurant }))
   },
   editRestaurant: (req, res) => {
     Category.findAll({
